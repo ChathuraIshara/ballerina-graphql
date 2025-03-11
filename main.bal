@@ -12,4 +12,8 @@ service graphql:Service /graphql on gplListener{
         io:println("greeting function called with name: "+name);
         return "Hello, "+name;
     }
+    resource function get hello() returns string
+    {
+        return "Hello world";
+    }
 }
