@@ -30,4 +30,7 @@ service /graphql on new graphql:Listener(8080) {
         self.profile.age = age;
         return self.profile;
     }
+    resource function get hello() returns string {
+        return "Hello, World!";
+    }
 }
