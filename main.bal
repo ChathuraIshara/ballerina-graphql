@@ -1,19 +1,33 @@
 import ballerina/graphql;
-import ballerina/io;
 
-listener graphql:Listener gplListener= new (8080);
+public type Person record {|
+    string name;
+    int age;
+    string city;
+|};
 
-service graphql:Service /graphql on gplListener{
-    function init()
-    {
-        io:println("Graphql Service started!...");
+service /graphql on new graphql:Listener(8080) {
+    private Person profile;
+
+    function init() {
+        self.profile = { name: "Walter White", age: 50, city: "Albuquerque" };
     }
-    resource function get greeting(string name) returns string{
-        io:println("greeting function called with name: "+name);
-        return "Hello, "+name;
+
+    resource function get profile() returns Person {
+        return self.profile;
     }
-    resource function get hello() returns string
-    {
-        return "Hello world";
+
+    remote function updateName(string name) returns Person {
+        self.profile.name = name;
+        return self.profile;
+    }
+
+    remote function updateCity(string city) returns Person {
+        self.profile.city = city;
+        return self.profile;
+    }
+    remote function updateAge(int age) returns Person {
+        self.profile.age = age;
+        return self.profile;
     }
 }
